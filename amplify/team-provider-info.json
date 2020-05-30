@@ -1,0 +1,25 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-jagr-dev-191500-authRole",
+            "UnauthRoleArn": "arn:aws:iam::229397476429:role/amplify-jagr-dev-191500-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::229397476429:role/amplify-jagr-dev-191500-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "amplify-jagr-dev-191500-deployment",
+            "UnauthRoleName": "amplify-jagr-dev-191500-unauthRole",
+            "StackName": "amplify-jagr-dev-191500",
+            "StackId": "arn:aws:cloudformation:us-east-2:229397476429:stack/amplify-jagr-dev-191500/f07aa220-2386-11ea-b1ac-021e2396e2cc",
+            "AmplifyAppId": "dgw0o41tkhvjx"
+        },
+        "categories": {
+            "function": {
+                "jagr1f0551c8PostConfirmation": {
+                    "GROUP": "User"
+                }
+            },
+            "auth": {
+                "jagr1f0551c8": {}
+            }
+        }
+    }
+}

@@ -1,0 +1,171 @@
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+  url: String!
+}
+
+enum NamePreference {
+  username
+  name
+}
+
+enum ThemePreference {
+  light
+  dark
+}
+
+type UserPreferences {
+  name: NamePreference
+  theme: ThemePreference
+}
+
+type UserAccounts {
+  twitter: String
+  facebook: String
+  instagram: String
+  github: String
+  dribbble: String
+  linkedin: String
+  behance: String
+  ello: String
+}
+
+type User
+  @model
+  @key(name: "ByUsername", fields: ["username"], queryField: "usersByUsername")
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "id", operations: [create, update, delete] }
+      { allow: groups, groups: ["Admin"] }
+      { allow: groups, groups: ["User"], operations: [read] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  username: String!
+  name: String
+  biography: String
+  website: String
+  preferences: UserPreferences
+  email: String!
+  avatar: S3Object
+  accounts: UserAccounts
+  createdAt: String
+  updatedAt: String
+  comments: [Comment] @connection(name: "UserComments", keyField: "authorId")
+  playlists: [Playlist] @connection(name: "UserPlaylists", keyField: "authorId")
+  posts: [Post] @connection(name: "UserPosts", keyField: "authorId")
+}
+
+enum PostType {
+  Tutorial
+  News
+  Other
+}
+
+enum DifficultyEnum {
+  Beginner
+  Intermediate
+  Advanced
+}
+
+type Post
+  @model
+  @key(
+    name: "BySlug"
+    fields: ["slug", "releaseDate"]
+    queryField: "postsBySlug"
+  )
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "authorId" }
+      { allow: groups, groups: ["Admin"] }
+      { allow: groups, groups: ["User"], operations: [read] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  title: String!
+  slug: String!
+  summary: String!
+  difficulty: DifficultyEnum
+  body: String!
+  releaseDate: String!
+  author: User! @connection(name: "UserPosts", keyField: "authorId")
+  authorId: String!
+  deletedAt: String
+  playlist: Playlist @connection(name: "PlaylistPosts")
+  skill: Skill! @connection(name: "PostSkill")
+  comments: [Comment]! @connection(name: "PostComments")
+  createdAt: String
+  updatedAt: String
+}
+
+type Comment
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "authorId" }
+      { allow: groups, groups: ["Admin"] }
+      { allow: groups, groups: ["User"], operations: [read] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  content: String
+  post: Post @connection(name: "PostComments")
+  author: User! @connection(name: "UserComments", keyField: "authorId")
+  authorId: String
+  createdAt: String
+  updatedAt: String
+}
+
+type Playlist
+  @model
+  @key(
+    name: "BySlug"
+    fields: ["slug", "releaseDate"]
+    queryField: "playlistsBySlug"
+  )
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "authorId" }
+      { allow: groups, groups: ["Admin"] }
+      { allow: groups, groups: ["User"], operations: [read] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  title: String!
+  slug: String!
+  summary: String!
+  posts: [Post]! @connection(name: "PlaylistPosts")
+  skill: Skill! @connection(name: "PlaylistSkills")
+  difficulty: DifficultyEnum
+  thumbnail: S3Object
+  releaseDate: String!
+  createdAt: String
+  updatedAt: String
+  author: User! @connection(name: "UserPlaylists", keyField: "authorId")
+  authorId: String
+}
+
+type Skill
+  @model
+  @auth(
+    rules: [
+      { allow: groups, groups: ["Admin"] }
+      { allow: groups, groups: ["User"], operations: [read] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  thumbnail: S3Object
+  summary: String!
+  playlists: [Playlist] @connection(name: "PlaylistSkills")
+  posts: [Post] @connection(name: "PostSkill")
+  createdAt: String
+  updatedAt: String
+}

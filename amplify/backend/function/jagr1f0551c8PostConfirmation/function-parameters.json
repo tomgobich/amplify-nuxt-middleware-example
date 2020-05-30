@@ -1,0 +1,14 @@
+{
+    "trigger": true,
+    "modules": [
+        "add-to-group"
+    ],
+    "parentResource": "jagr1f0551c8",
+    "functionName": "jagr1f0551c8PostConfirmation",
+    "parentStack": "auth",
+    "triggerEnvs": "[]",
+    "triggerTemplate": "PostConfirmation.json.ejs",
+    "roleName": "jagr1f0551c8PostConfirmation",
+    "skipEdit": true,
+    "resourceName": "jagr1f0551c8PostConfirmation"
+}
