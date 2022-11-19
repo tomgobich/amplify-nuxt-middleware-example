@@ -15,7 +15,7 @@
     "@nuxtjs/pwa": "^3.0.0-0",
     "aws-amplify": "^2.2.0",
     "aws-amplify-vue": "^1.1.1",
-    "nuxt": "^2.0.0",
+    "nuxt": "^2.15.8",
     "v-tooltip": "^2.0.2",
     "vue-avatar": "^2.1.8",
     "vue-click-outside": "^1.0.7",
